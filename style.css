@@ -1,0 +1,199 @@
+:root {
+    --font-body: 'Supreme-Variable', system-ui;
+    --font-heading: 'Boska-Variable', serif;
+}
+
+@font-face {
+    font-family: 'Supreme-Variable';
+    src: url('./fonts/Supreme-Variable.woff2') format('woff2'), url('./fonts/Supreme-Variable.woff') format('woff'),
+        url('./fonts/Supreme-Variable.ttf') format('truetype');
+    font-weight: 100 800;
+    font-display: swap;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Boska-Variable';
+    src: url('./fonts/Boska-Variable.woff2') format('woff2'), url('./fonts/Boska-Variable.woff') format('woff'),
+        url('./fonts/Boska-Variable.ttf') format('truetype');
+    font-weight: 200 900;
+    font-display: swap;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Boska-VariableItalic';
+    src: url('./fonts/Boska-VariableItalic.woff2') format('woff2'), url('./fonts/Boska-VariableItalic.woff') format('woff'),
+        url('./fonts/Boska-VariableItalic.ttf') format('truetype');
+    font-weight: 200 900;
+    font-display: swap;
+    font-style: italic;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        interpolate-size: allow-keywords;
+    }
+}
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+p {
+    text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 650;
+    line-height: 1.2;
+    text-wrap: balance;
+}
+
+/* Styles */
+body {
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+h2 {
+    font-size: clamp(2.5rem, 4vw, 5rem);
+}
+p {
+    font-size: clamp(1rem, 1.25vw, 1.5rem);
+    font-weight: 400;
+}
+button {
+    cursor: pointer;
+}
+
+/* Sections */
+.section {
+    display: grid;
+    height: 100vh;
+    height: 100dvh;
+}
+.section-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+	padding: 6%;
+}
+.section-content-inner {
+    display: block;
+    max-width: max(30vw, 64rem);
+}
+.section-content:not([data-side]) > .section-content-inner {
+    text-align: center;
+    margin: 0 auto;
+}
+.section-content-inner > *:not(:first-child) {
+    margin-top: 1em;
+}
+@media (min-width: 48rem) {
+    .section {
+        grid-template: 'left right';
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .section-content[data-side='left'] {
+        grid-area: left;
+    }
+    .section-content[data-side='right'] {
+        grid-area: right;
+    }
+    .section-content:not([data-side]) {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+}
+.text-reveal-wrapper {
+    overflow: hidden;
+    padding-bottom: 0.375em;
+}
+
+.section-heading {
+    background: linear-gradient(#f7fcff 0%, #ace3ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #FFF;
+    text-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.33);
+}
+p {
+    color: #FFF;
+    text-shadow: 0 0.125em 0.125em rgba(0, 0, 0, 0.33);
+}
+.section-nav-button {
+    background: #FFF;
+    border: 0;
+    border-radius: 1.5rem;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+    height: 3rem;
+    letter-spacing: 0.125em;
+    padding-inline: 2rem;
+    text-transform: uppercase;
+}
+
+/* Backdrops */
+.backdrops {
+	display: grid;
+	inset: 0;
+	position: fixed;
+    user-select: none;
+}
+.backdrop-item {
+    clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+    grid-area: 1 / 1 / 2 / 2;
+    transition: all 1.5s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.backdrop-item:nth-child(3),
+.backdrop-item:nth-child(4) {
+    transform: scaleX(-1);
+}
+.backdrop-item.inactive-after {
+    clip-path: polygon(0% 100%, 0% 100%, 100% 100%, 100% 100%);
+}
+.backdrop-item img {
+    height: 100%;
+	object-fit: cover;
+    object-position: center;
+    transform: scale(1.25);
+    transition: all 1.5s cubic-bezier(0.7, 0, 0.3, 1);
+    width: 100%;
+}
+.backdrop-item.inactive-after img {
+    transform: scale(1.25) translateY(10%);
+}
+.backdrop-item.inactive-before img {
+    transform: scale(1.25) translateY(-10%);
+}
