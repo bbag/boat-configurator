@@ -6,7 +6,7 @@
         <title>Dopple Boat</title>
         <link rel="stylesheet" href="style.css" />
     </head>
-    <body>
+    <body data-config-active="false">
         <!-- <div class="progress-indicator">
 			<div class="progress-dot active" data-target="0"></div>
 			<div class="progress-dot" data-target="1"></div>
@@ -29,6 +29,41 @@
         </div>
         <div class="dopple">
             <div id="dopple-canvas"></div>
+            <div class="hotspots">
+                <div data-hotspot="bimini_top_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="console_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="deck_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="gunwale_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="hull_side_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="hull_bottom_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="interior_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="logo_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="upholstery_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="table_hs">
+                    <button></button>
+                </div>
+                <div data-hotspot="tower_speakers_hs">
+                    <button></button>
+                </div>
+            </div>
         </div>
         <div id="scroll-wrapper">
             <div id="scroll-content">
@@ -93,7 +128,7 @@
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, soluta? Esse, omnis.</p>
                             </div>
                             <div class="cta">
-                                <button id="start-config-button" class="section-nav-button">Begin Customizing.</button>
+                                <button id="start-config-button" class="section-nav-button">Begin Customizing</button>
                             </div>
                         </div>
                     </div>
@@ -124,6 +159,8 @@
             <span class="progress">0%</span>
         </div>
 
+        <div class="config-menu"></div>
+
         <!-- GSAP v3 stuff -->
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
@@ -132,6 +169,7 @@
         <!-- <script src="scripts.js"></script> -->
 
         <!-- Dopple -->
-        <script type="module" src="dopple.js"></script>
+        <!-- <script type="module" src="dopple.js"></script> -->
+        <script type="module" src="scout.js"></script>
     </body>
 </html>

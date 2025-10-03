@@ -1,6 +1,7 @@
 :root {
     --font-body: 'Supreme-Variable', system-ui;
     --font-heading: 'Boska-Variable', serif;
+    --cubic-ease: cubic-bezier(0.25, 0, 0.1, 1);
 }
 
 @font-face {
@@ -43,8 +44,6 @@
     }
 }
 img,
-picture,
-video,
 canvas,
 svg {
     display: block;
@@ -52,7 +51,6 @@ svg {
 }
 input,
 button,
-textarea,
 select {
     font: inherit;
 }
@@ -85,10 +83,10 @@ body {
     font-family: var(--font-body);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-	overflow: hidden;
+    overflow: hidden;
 }
 body[data-loaded='true'] {
-	overflow: auto;
+    overflow: auto;
 }
 h2 {
     font-size: clamp(2.5rem, 4vw, 5rem);
@@ -102,6 +100,10 @@ button {
 }
 
 /* Sections */
+#scroll-wrapper {
+    /* pointer-events: none; */
+    transition: all 0.5s ease-in-out;
+}
 .section {
     display: grid;
     height: 100vh;
@@ -112,7 +114,21 @@ button {
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
-    padding: 6%;
+    padding: 8%;
+}
+#section-1 .section-content-inner {
+    position: relative;
+}
+[data-loaded='true'] #section-1 .section-content-inner,
+[data-loaded='true'] #section-4 .section-content-inner {
+    transition: transform 1.5s var(--cubic-ease);
+    transition-delay: 2.5s;
+}
+[data-loaded='true'] #section-1 .section-content-inner {
+    transform: translateY(-16vh);
+}
+[data-loaded='true'] #section-4 .section-content-inner {
+    transform: translateY(22vh);
 }
 .section-content-inner {
     display: block;
@@ -210,48 +226,73 @@ p {
     user-select: none;
 }
 
+.dopple > * {
+	grid-area: 1 / 1 / 2 / 2;
+}
+
+#dopple-canvas {
+    opacity: 0;
+    transition: all 2.5s ease-out;
+}
+[data-loaded='true'] #dopple-canvas {
+    opacity: 1;
+    transition-delay: 2500ms;
+}
+
 /* Loading screen */
 .loading-screen {
     --bg: #1e66ad;
     background-color: var(--bg);
     color: #fff;
     display: grid;
-	gap: 1rem;
+    gap: 1rem;
     inset: 0;
-	justify-items: center;
+    justify-items: center;
     place-content: center;
     position: fixed;
     user-select: none;
-	width: 100vw;
+    width: 100vw;
     z-index: 2;
 }
 .loading-screen::after {
-	background: linear-gradient(-45deg, rgba(0, 0, 0, 0.03) 10%, transparent 10%, transparent 40%, rgba(0, 0, 0, 0.03) 40%, rgba(0, 0, 0, 0.03) 60%, transparent 60%, transparent 90%, rgba(0, 0, 0, 0.1) 90%) repeat 0px 0px/8px 8px, radial-gradient(circle, #2660ef00, #040e28ee);
-	content: "";
-	display: block;
-	inset: 0;
-	pointer-events: none;
-	position: absolute;
+    background: linear-gradient(
+                -45deg,
+                rgba(0, 0, 0, 0.03) 10%,
+                transparent 10%,
+                transparent 40%,
+                rgba(0, 0, 0, 0.03) 40%,
+                rgba(0, 0, 0, 0.03) 60%,
+                transparent 60%,
+                transparent 90%,
+                rgba(0, 0, 0, 0.1) 90%
+            )
+            repeat 0px 0px/8px 8px,
+        radial-gradient(circle, #2660ef00, #040e28ee);
+    content: '';
+    display: block;
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
 }
-.loading-screen[data-loaded="true"] {
-	opacity: 0;
-	transition: opacity 1.5s cubic-bezier(0.7, 0, 0.3, 1), visibility 1.5s linear;
-	visibility: hidden;
+[data-loaded='true'] .loading-screen {
+    opacity: 0;
+    transition: opacity 1.5s cubic-bezier(0.7, 0, 0.3, 1), visibility 1.5s linear;
+    visibility: hidden;
 }
 .loading-graphic {
-	max-width: 16rem;
-	position: relative;
+    max-width: 16rem;
+    position: relative;
     width: 16rem;
 }
 .loading-graphic::after {
-	background-image: linear-gradient(90deg, var(--bg) 0%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 72%, var(--bg) 100%);
-	content: "";
-	display: block;
-	inset: 0;
-	position: absolute;
+    background-image: linear-gradient(90deg, var(--bg) 0%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 72%, var(--bg) 100%);
+    content: '';
+    display: block;
+    inset: 0;
+    position: absolute;
 }
 .loading-graphic svg {
-	width: 100%;
+    width: 100%;
 }
 .loading-boat {
     animation: 0.7s cubic-bezier(0.37, 0, 0.63, 1) infinite loading-boat-bob;
@@ -288,4 +329,61 @@ p {
     100% {
         transform: translateX(-100%);
     }
+}
+
+/* Configuration mode */
+body[data-config-active='true'] {
+    overflow: hidden;
+}
+body[data-config-active='true'] #scroll-wrapper {
+    opacity: 0;
+    visibility: hidden;
+}
+body[data-config-active='false'] .hotspot {
+    opacity: 0;
+    visibility: hidden;
+}
+body[data-config-active='true'] .hotspot {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hotspots */
+.hotspots {
+	visibility: hidden;
+}
+[data-hotspot] {
+    position: relative;
+}
+[data-hotspot] button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #fff6;
+    border-radius: 100%;
+    height: max(1.5rem, 3vh);
+    position: relative;
+    transition: all 150ms var(--cubic-ease);
+    width: max(1.5rem, 3vh);
+}
+[data-hotspot] button::after {
+    background: #0ab195;
+    border: 1px solid #fff;
+    border-radius: 100%;
+	box-shadow: 0 0 0.375rem #0006;
+    content: '';
+    display: block;
+    height: 60%;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 150ms var(--cubic-ease);
+    width: 60%;
+}
+[data-hotspot] button:hover,
+[data-hotspot] button:focus-visible {
+  transform: scale(1.2);
+}
+[data-hotspot] button:hover::after,
+[data-hotspot] button:focus-visible::after {
+  transform: translate(-50%, -50%) scale(0.75);
 }

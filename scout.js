@@ -1,59 +1,53 @@
 document.body.scrollTop = 0
 document.documentElement.scrollTop = 0
 
-// Import Dopple
-import { DoppleXR } from 'https://builds.dopple.io/packages/dopple-sdk@latest/dopple-sdk.js'
+import { DoppleXR } from 'https://builds.dopple.io/packages/dopple-sdk@alpha/dopple-sdk.js'
 
-// Define a default selection
-const defaultSelection = {
-    bimini_top: 'hidden',
-    bimini_top_color: 'white',
-    console_color: 'white',
-    deck_color: 'white',
-    gunwale_color: 'white',
-    hull_bottom_color: 'white',
-    hull_side_color: 'white',
-    interior_accent_color: 'white',
-    interior_primary_color: 'white',
-    logo_color: 'white',
-    upholstery_primary_color: 'white',
-    upholstery_secondary_color: 'white',
-    upholstery_trim_color: 'white',
-    table: 'hidden',
-    table_color: 'white',
-    tower_speakers: 'hidden',
-    camera_position: 'side-starboard'
-}
-
-// Initialize your 3D product
 const dopple = new DoppleXR({
     container: document.getElementById('dopple-canvas'),
     owner: 'dopple',
-    workspace: 'dopple-demos',
-    projectName: 'boat',
+    workspace: 'Glenns-Sandbox',
+    projectName: 'scout670',
     productVersion: '1',
-    selection: defaultSelection
+    selection: {}
 })
 
 // Handle loading progress
 const progressElement = document.querySelector('.progress')
 dopple.loadingManager.onProgress = (_url, current) => {
-	const ACTUAL_TOTAL = 62
+	const ACTUAL_TOTAL = 178
     progressElement.textContent = `${Math.round((current / ACTUAL_TOTAL) * 100)}%`
 }
 
 await dopple.load()
 
 // Hide the loading screen
-document.querySelector('.loading-screen').dataset.loaded = 'true'
+// document.querySelector('.loading-screen').dataset.loaded = 'true'
 document.body.dataset.loaded = 'true'
-
-// Set to initial camera position
-dopple.controls.setPosition(-9.25, 4.25, 0.85)
-dopple.controls.setTarget(1.416, 4.65, 0)
 
 // Run the renderer
 dopple.run()
+
+// Set to initial camera position
+setTimeout(() => {
+    console.log('Setting initial position')
+    dopple.controls.setPosition(-256, 350, 900, true)
+    dopple.controls.setTarget(-270, 120, 0, true)
+    dopple.controls.zoomTo(2.25, true)
+}, 2500)
+// dopple.controls.setPosition(-270, 180, 480)
+// dopple.controls.setTarget(-270, 180, 0)
+// dopple.controls.setFocalOffset(0, 0, 0)
+
+/*
+console.log(dopple.controls.getPosition(), dopple.controls.getTarget())
+
+dopple.controls.setPosition(-270, 180, 480)
+dopple.controls.setTarget(-270, 180, 0)
+
+dopple.controls.getPosition()
+dopple.controls.getTarget()
+*/
 
 // Add Dopple to the window, just for easy peasy debugging
 window.dopple = dopple
@@ -99,28 +93,40 @@ function handleSectionEnter(sectionIndex) {
 
     switch (sectionIndex) {
         case 0:
+            console.log('section 0')
+            dopple.controls.setPosition(-256, 350, 900, true)
+            dopple.controls.setTarget(-270, 120, 0, true)
             // document.body.style.setProperty('--bg', '#d7eaf2')
-            dopple.controls.setPosition(-9.25, 4.25, 0.85, true)
-            dopple.controls.setTarget(1.416, 4.65, 0, true)
-            dopple.controls.setFocalOffset(0, 0, 0, true)
+            // dopple.controls.setPosition(-270, 180, 480, true)
+            // dopple.controls.setTarget(-270, 180, 0, true)
+            // dopple.controls.setFocalOffset(0, 0, 0, true)
             break
         case 1:
+            console.log('section 1')
+            dopple.controls.setPosition(304, 158, 114, true)
+            dopple.controls.setTarget(-251, 13, -137, true)
             // document.body.style.setProperty('--bg', '#c5daea')
-            dopple.controls.setPosition(0, 11, -0.5, true)
-            dopple.controls.setTarget(0, 0, 0.01, true)
-            dopple.controls.setFocalOffset(2.5, 0, 0, true)
+            // dopple.controls.setPosition(0, 11, -0.5, true)
+            // dopple.controls.setTarget(0, 0, 0.01, true)
+            // dopple.controls.setFocalOffset(2.5, 0, 0, true)
             break
         case 2:
+            console.log('section 2')
+            dopple.controls.setPosition(219, 143, -164, true)
+            dopple.controls.setTarget(-213, 5, 172, true)
             // document.body.style.setProperty('--bg', '#b0c6e5')
-            dopple.controls.setPosition(-4.819, 3.987, -5.129, true)
-            dopple.controls.setTarget(0.928, 0.659, -0.726, true)
-            dopple.controls.setFocalOffset(-2, 0, 0, true)
+            // dopple.controls.setPosition(-4.819, 3.987, -5.129, true)
+            // dopple.controls.setTarget(0.928, 0.659, -0.726, true)
+            // dopple.controls.setFocalOffset(-2, 0, 0, true)
             break
         case 3:
+            console.log('section 3')
+            dopple.controls.setPosition(226, 179.5, 0, true)
+            dopple.controls.setTarget(-209, -87, 0, true)
             // document.body.style.setProperty('--bg', '#a1b6e0')
-            dopple.controls.setTarget(0, 4.113, -0.144, true)
-            dopple.controls.setPosition(0, 2.08, -6.134, true)
-            dopple.controls.setFocalOffset(0, 0, 0, true)
+            // dopple.controls.setTarget(0, 4.113, -0.144, true)
+            // dopple.controls.setPosition(0, 2.08, -6.134, true)
+            // dopple.controls.setFocalOffset(0, 0, 0, true)
             break
     }
 }
@@ -247,13 +253,19 @@ const startConfigButton = document.querySelector('#start-config-button')
 if (startConfigButton) {
     startConfigButton.addEventListener('click', () => {
         document.body.dataset.configActive = 'true'
-        dopple.updateSelection({'camera_position': 'free-cam'})
+        ScrollTrigger.disable()
 
-        const hotspots = document.querySelectorAll('[data-hotspot]')
-        for (const hotspot of hotspots) {
-            const hotspotId = hotspot.dataset.hotspot
-            dopple.matrix.hotspots[hotspotId].element = hotspot
-        }
-        dopple.updateSelection()
+        dopple.controls.setPosition(261, 185, 527, true)
+        dopple.controls.setTarget(-255, 44, 0, true)
+
+
+        // dopple.updateSelection({'camera_position': 'free-cam'})
+
+        // const hotspots = document.querySelectorAll('[data-hotspot]')
+        // for (const hotspot of hotspots) {
+        //     const hotspotId = hotspot.dataset.hotspot
+        //     dopple.matrix.hotspots[hotspotId].element = hotspot
+        // }
+        // dopple.updateSelection()
     })
 }
